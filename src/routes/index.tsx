@@ -85,7 +85,7 @@ function Index() {
           <WaterBackground />
         </div>
 
-        <header className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 pt-6 flex items-center justify-between text-white">
+        <header className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 pt-6 flex items-center justify-between text-white bg-slate-500 pb-[5px]">
           <div className="flex items-center gap-2 font-semibold tracking-tight">
             <FishIcon className="w-5 h-5" aria-hidden="true" />
             <span>FishForge</span>

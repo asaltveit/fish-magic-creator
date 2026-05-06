@@ -7,7 +7,8 @@ import { WaterBackground } from "@/components/WaterBackground";
 import { BackgroundFish } from "@/components/BackgroundFish";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sparkles, Waves, Search, Zap, Loader2, Check, Fish as FishIcon } from "lucide-react";
+import { Sparkles, Waves, Search, Zap, Loader2, Check, Download, Fish as FishIcon } from "lucide-react";
+import { useGenerate } from "@/hooks/useGenerate";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -47,6 +48,7 @@ function Index() {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [stage, setStage] = useState<"idle" | "researching" | "rendering">("idle");
+  const { generate: generate3D, phase: phase3D, result: result3D, error: error3D } = useGenerate();
 
   const handleGenerate = useCallback(
     (value: string) => {
@@ -246,6 +248,50 @@ function Index() {
                   </p>
                 )}
               </form>
+
+              <div className="flex flex-col gap-2 rounded-2xl border bg-secondary/40 p-4">
+                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Or generate a 3D model
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => generate3D(species.trim() || "Clownfish")}
+                  disabled={phase3D === "starting" || phase3D === "running"}
+                  className="h-11"
+                >
+                  {phase3D === "starting" && (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" /> Starting…
+                    </>
+                  )}
+                  {phase3D === "running" && (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" /> Generating 3D model…
+                    </>
+                  )}
+                  {(phase3D === "idle" || phase3D === "done" || phase3D === "error") && (
+                    <>
+                      <Download className="w-4 h-4" /> Generate 3D Fish
+                    </>
+                  )}
+                </Button>
+                {phase3D === "done" && result3D?.blend_url && (
+                  <a
+                    href={result3D.blend_url}
+                    className="text-sm text-primary underline underline-offset-2"
+                    download
+                  >
+                    Download {result3D.species?.common_name ?? "fish"}.blend
+                    {result3D.blend_size_mb ? ` (${result3D.blend_size_mb} MB)` : ""}
+                  </a>
+                )}
+                {phase3D === "error" && (
+                  <p role="alert" className="text-sm text-destructive">
+                    {String(error3D)}
+                  </p>
+                )}
+              </div>
 
               <div className="flex flex-wrap gap-1.5">
                 <span className="text-xs text-muted-foreground self-center mr-1">

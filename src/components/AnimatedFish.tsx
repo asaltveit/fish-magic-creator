@@ -1,5 +1,5 @@
 import { useId } from "react";
-import type { FishProfile } from "@/server/fish.functions";
+import type { FishProfile } from "@/lib/fish.functions";
 
 type Action = "swim" | "wiggle" | "leap" | "still";
 

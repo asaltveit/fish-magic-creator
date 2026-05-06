@@ -107,8 +107,12 @@ function Index() {
             Any fish, instantly alive.
           </h1>
           <p
-            className="mt-4 text-base sm:text-lg max-w-xl mx-auto text-white animate-fade-in-up shadow-sm bg-transparent opacity-85 border-teal-50"
-            style={{ animationDelay: "0.1s", textShadow: "0 1px 12px oklch(0.18 0.06 240 / 0.6)" }}
+            className="mt-4 text-base sm:text-lg max-w-xl mx-auto text-white animate-fade-in-up font-medium"
+            style={{
+              animationDelay: "0.1s",
+              textShadow:
+                "0 2px 16px oklch(0.12 0.06 250 / 0.9), 0 1px 3px oklch(0.12 0.06 250 / 0.7)",
+            }}
           >
             Type a fish species. We research it across the web, then generate a
             unique animated fish you can preview in real time.

@@ -86,7 +86,7 @@
   --ocean-foam: oklch(0.94 0.04 200);
   --coral: oklch(0.74 0.16 35);
 
-  --gradient-hero: linear-gradient(135deg, var(--ocean-deep), var(--ocean-mid) 50%, var(--ocean-shallow));
+  --gradient-hero: linear-gradient(135deg, oklch(0.16 0.07 250), var(--ocean-deep) 45%, var(--ocean-mid) 100%);
   --gradient-water: linear-gradient(180deg, oklch(0.78 0.12 210) 0%, oklch(0.55 0.16 225) 55%, oklch(0.32 0.12 245) 100%);
   --gradient-cta: linear-gradient(135deg, var(--ocean-shallow), var(--accent));
   --shadow-glow: 0 20px 60px -20px oklch(0.42 0.14 230 / 0.55);
@@ -288,13 +288,13 @@
 /* ===== Utilities ===== */
 .hero-text {
   color: oklch(1 0 0);
-  text-shadow: 0 2px 18px oklch(0.18 0.06 240 / 0.55);
+  text-shadow: 0 2px 24px oklch(0.12 0.06 250 / 0.85), 0 1px 2px oklch(0.12 0.06 250 / 0.6);
 }
 .glass {
-  background: oklch(1 0 0 / 0.18);
+  background: oklch(0.18 0.06 245 / 0.55);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid oklch(1 0 0 / 0.3);
+  border: 1px solid oklch(1 0 0 / 0.35);
   color: oklch(1 0 0);
 }
 .cta-glow {

@@ -311,8 +311,9 @@
 .bgfish-swimmer {
   position: absolute;
   left: 0;
-  opacity: 0.45;
+  opacity: 0.85;
   filter: drop-shadow(0 6px 14px oklch(0.12 0.06 250 / 0.4));
+  isolation: isolate;
   animation-name: bgfish-cross;
   animation-timing-function: linear;
   animation-iteration-count: infinite;

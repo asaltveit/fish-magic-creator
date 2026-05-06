@@ -7,6 +7,9 @@ export interface GenerateResult {
   blend_key?: string;
   blend_size_mb?: number;
   blend_url?: string;
+  glb_key?: string;
+  glb_size_mb?: number;
+  glb_url?: string;
 }
 
 export function useGenerate() {

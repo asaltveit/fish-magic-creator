@@ -5,6 +5,7 @@ import { generateFish, type FishProfile } from "@/lib/fish.functions";
 import { AnimatedFish } from "@/components/AnimatedFish";
 import { WaterBackground } from "@/components/WaterBackground";
 import { BackgroundFish } from "@/components/BackgroundFish";
+import { FishModelPreview } from "@/components/FishModelPreview";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sparkles, Waves, Search, Zap, Loader2, Check, Download, Fish as FishIcon } from "lucide-react";
@@ -142,7 +143,11 @@ function Index() {
             <div className="lg:col-span-3 relative min-h-[320px] sm:min-h-[420px] bg-ocean-deep">
               <WaterBackground />
               <div className="relative z-10 h-full w-full p-6 sm:p-10 flex items-center justify-center">
-                {fish ? (
+                {result3D?.glb_url ? (
+                  <div className="w-full h-full min-h-[280px] animate-fade-in-up">
+                    <FishModelPreview url={result3D.glb_url} />
+                  </div>
+                ) : fish ? (
                   <div className="w-full max-w-md aspect-[7/4] animate-fade-in-up">
                     <AnimatedFish fish={fish} action={action} />
                   </div>
@@ -158,7 +163,7 @@ function Index() {
                   </div>
                 )}
 
-                {pending && (
+                {(pending || phase3D === "starting" || phase3D === "running") && (
                   <div
                     className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-ocean-deep/40 backdrop-blur-sm text-white"
                     role="status"
@@ -166,7 +171,9 @@ function Index() {
                   >
                     <Loader2 className="w-7 h-7 animate-spin" aria-hidden="true" />
                     <p className="text-sm font-medium">
-                      {stage === "researching"
+                      {phase3D === "starting" || phase3D === "running"
+                        ? "Generating 3D model…"
+                        : stage === "researching"
                         ? "Researching the species…"
                         : "Rendering your fish…"}
                     </p>

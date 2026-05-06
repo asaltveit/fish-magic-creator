@@ -151,7 +151,7 @@ function Index() {
                     <AnimatedFish fish={fish} action={action} />
                   </div>
                 ) : (
-                  <div className="text-center text-white/85">
+                  <div className="text-center text-white">
                     <FishIcon
                       className="w-12 h-12 mx-auto mb-3 opacity-70"
                       aria-hidden="true"

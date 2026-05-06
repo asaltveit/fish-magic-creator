@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 type FishKind = "salmon" | "snapper" | "goldfish";
 
 interface SilhouetteProps {
@@ -34,12 +36,10 @@ function FishSilhouette({ kind }: SilhouetteProps) {
         fill={palette.belly}
         opacity="0.7"
       />
-      {/* Top fin */}
+      {/* Top fin (static — no scaleY flutter to avoid bulging) */}
       <path
         d="M90 28 Q120 0 150 25 L140 35 Q120 28 100 35 Z"
         fill={palette.fin}
-        className="bgfish-fin"
-        style={{ transformOrigin: "120px 28px" }}
       />
       {/* Bottom fin */}
       <path
@@ -47,7 +47,6 @@ function FishSilhouette({ kind }: SilhouetteProps) {
         fill={palette.fin}
         opacity="0.9"
       />
-      {/* Stripe accent for snapper/salmon */}
       {kind !== "goldfish" && (
         <path
           d="M55 60 Q120 50 200 60"
@@ -57,7 +56,6 @@ function FishSilhouette({ kind }: SilhouetteProps) {
           opacity="0.5"
         />
       )}
-      {/* Goldfish flowing tail accent */}
       {kind === "goldfish" && (
         <path d="M25 60 L-8 20 L8 60 L-8 100 Z" fill={palette.body} opacity="0.6" />
       )}
@@ -69,7 +67,7 @@ function FishSilhouette({ kind }: SilhouetteProps) {
         fill="none"
         opacity="0.6"
       />
-      {/* Eye */}
+      {/* Eye (points right in source SVG) */}
       <circle cx="195" cy="55" r="6" fill="#fff" />
       <circle cx="197" cy="55" r="3.5" fill="#1a1a1a" />
       <circle cx="198.5" cy="53.5" r="1.2" fill="#fff" />
@@ -87,6 +85,7 @@ interface SwimmerProps {
 }
 
 function Swimmer({ kind, top, duration, delay, scale, reverse }: SwimmerProps) {
+  // When reversed, animate right→left AND mirror the fish so its eye leads.
   return (
     <div
       className="bgfish-swimmer"
@@ -94,11 +93,15 @@ function Swimmer({ kind, top, duration, delay, scale, reverse }: SwimmerProps) {
         top,
         animationDuration: duration,
         animationDelay: delay,
-        ["--bgfish-scale" as string]: scale,
-        ["--bgfish-flip" as string]: reverse ? "-1" : "1",
+        animationDirection: reverse ? "reverse" : "normal",
       }}
     >
-      <div className="bgfish-bob">
+      <div
+        className="bgfish-bob"
+        style={{
+          transform: `scale(${scale}) scaleX(${reverse ? -1 : 1})`,
+        }}
+      >
         <div className="w-32 sm:w-40">
           <FishSilhouette kind={kind} />
         </div>
@@ -107,15 +110,43 @@ function Swimmer({ kind, top, duration, delay, scale, reverse }: SwimmerProps) {
   );
 }
 
+const KINDS: FishKind[] = ["salmon", "snapper", "goldfish"];
+const rand = (min: number, max: number) => Math.random() * (max - min) + min;
+
 export function BackgroundFish() {
+  const swimmers = useMemo(() => {
+    return Array.from({ length: 5 }).map((_, i) => {
+      const duration = rand(28, 60); // seconds
+      return {
+        key: i,
+        kind: KINDS[Math.floor(Math.random() * KINDS.length)],
+        top: `${Math.round(rand(12, 82))}%`,
+        duration: `${duration.toFixed(1)}s`,
+        // Negative delay so some fish are mid-swim on first paint;
+        // positive delay so others enter later. Randomized per fish.
+        delay: `${rand(-duration, 8).toFixed(1)}s`,
+        scale: rand(0.55, 1.15),
+        reverse: Math.random() < 0.5,
+      };
+    });
+  }, []);
+
   return (
     <div
       className="absolute inset-0 overflow-hidden pointer-events-none"
       aria-hidden="true"
     >
-      <Swimmer kind="salmon" top="22%" duration="38s" delay="0s" scale={0.9} />
-      <Swimmer kind="snapper" top="58%" duration="46s" delay="-12s" scale={1.05} reverse />
-      <Swimmer kind="goldfish" top="75%" duration="32s" delay="-22s" scale={0.7} />
+      {swimmers.map((s) => (
+        <Swimmer
+          key={s.key}
+          kind={s.kind}
+          top={s.top}
+          duration={s.duration}
+          delay={s.delay}
+          scale={s.scale}
+          reverse={s.reverse}
+        />
+      ))}
     </div>
   );
 }

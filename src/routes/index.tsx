@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState, useTransition, useCallback } from "react";
-import { generateFish, type FishProfile } from "@/server/fish.functions";
+import { generateFish, type FishProfile } from "@/lib/fish.functions";
 import { AnimatedFish } from "@/components/AnimatedFish";
 import { WaterBackground } from "@/components/WaterBackground";
 import { Button } from "@/components/ui/button";

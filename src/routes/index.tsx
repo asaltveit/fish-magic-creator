@@ -4,6 +4,7 @@ import { useState, useTransition, useCallback } from "react";
 import { generateFish, type FishProfile } from "@/lib/fish.functions";
 import { AnimatedFish } from "@/components/AnimatedFish";
 import { WaterBackground } from "@/components/WaterBackground";
+import { BackgroundFish } from "@/components/BackgroundFish";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sparkles, Waves, Search, Zap, Loader2, Check, Fish as FishIcon } from "lucide-react";
@@ -85,6 +86,8 @@ function Index() {
           <WaterBackground />
         </div>
 
+        <BackgroundFish />
+
         <header className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 pt-6 flex items-center justify-between text-white bg-slate-500 pb-[5px]">
           <div className="flex items-center gap-2 font-semibold tracking-tight">
             <FishIcon className="w-5 h-5" aria-hidden="true" />
@@ -115,22 +118,13 @@ function Index() {
           </p>
 
           <div
-            className="mt-8 flex flex-wrap justify-center gap-3 text-sm animate-fade-in-up"
+            className="mt-8 flex justify-center text-sm animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
-            {[
-              { icon: Search, label: "Live web research" },
-              { icon: Sparkles, label: "AI species profile" },
-              { icon: Waves, label: "Multiple actions" },
-            ].map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="glass rounded-full px-3 py-1.5 flex items-center gap-2"
-              >
-                <Icon className="w-3.5 h-3.5" aria-hidden="true" />
-                {label}
-              </div>
-            ))}
+            <div className="glass rounded-full px-4 py-2 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+              Researched by Apify · Animated in your browser
+            </div>
           </div>
         </div>
       </section>

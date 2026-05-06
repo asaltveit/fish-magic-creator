@@ -307,6 +307,41 @@
   box-shadow: 0 28px 70px -20px oklch(0.42 0.14 230 / 0.7);
 }
 
+/* ===== Background swimming fish ===== */
+.bgfish-swimmer {
+  position: absolute;
+  left: 0;
+  opacity: 0.45;
+  filter: drop-shadow(0 6px 14px oklch(0.12 0.06 250 / 0.4));
+  animation-name: bgfish-cross;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+.bgfish-bob {
+  animation: bgfish-bob 5s ease-in-out infinite;
+  transform: scale(var(--bgfish-scale, 1)) scaleX(var(--bgfish-flip, 1));
+}
+.bgfish-tail {
+  animation: tail-swish 0.7s ease-in-out infinite;
+}
+.bgfish-fin {
+  animation: fin-flutter 1.4s ease-in-out infinite;
+}
+@keyframes bgfish-cross {
+  0% { transform: translateX(-15vw); }
+  100% { transform: translateX(110vw); }
+}
+@keyframes bgfish-bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bgfish-swimmer, .bgfish-bob, .bgfish-tail, .bgfish-fin {
+    animation: none !important;
+  }
+}
+
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
